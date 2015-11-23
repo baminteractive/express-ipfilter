@@ -1,1 +1,1 @@
-module.exports = require('./lib/ipfilter');
+module.exports = require('./src/ipfilter');
