@@ -83,6 +83,7 @@ module.exports = app;
 | logLevel | level of logging (*all*,*deny*,*allow*) | string | all
 | allowedHeaders | an array of strings for header names that are acceptable for retrieving an IP address | array | [] |
 | excluding   | routes that should be excluded from ip filtering | array|[]|
+| disableStackTrace | whether to enable or disable the error message and stack trace | boolean|false|
 
 ## Contributing
 
