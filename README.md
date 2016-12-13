@@ -84,7 +84,7 @@ module.exports = app;
 | allowedHeaders | an array of strings for header names that are acceptable for retrieving an IP address | array | [] |
 | excluding   | routes that should be excluded from ip filtering | array|[]|
 | disableStackTrace | whether to enable or disable the error message and stack trace | boolean|false|
-| customMessage | allows to set coustom message | string|Access denied to the IP address: |
+| customMessage | Allows us to set custom message  | string|Access denied to the IP address: |
 
 
 ## Contributing
