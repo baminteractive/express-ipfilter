@@ -106,6 +106,9 @@ You will need to require the `IpDeniedError` type in order to handle it.
 | logLevel | level of logging (*all*,*deny*,*allow*) | string | all
 | allowedHeaders | an array of strings for header names that are acceptable for retrieving an IP address | array | [] |
 | excluding   | routes that should be excluded from ip filtering | array|[]|
+| disableStackTrace | whether to enable or disable the error message and stack trace | boolean|false|
+| customMessage | Allows us to set custom message  | string|Access denied to the IP address: |
+
 
 ## Contributing
 
