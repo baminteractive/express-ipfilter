@@ -157,8 +157,8 @@ module.exports = function ipfilter(ips, opts) {
       });
 
       if(results.length > 0){
-        if(settings.log){
-          logger('Access granted for excluded path: ' + results[0]);
+        if(settings.log && settings.logLevel !== 'deny'){
+          settings.logF('Access granted for excluded path: ' + results[0]);
         }
         return next();
       }

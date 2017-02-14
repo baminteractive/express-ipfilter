@@ -667,6 +667,31 @@ describe('LogLevel function', function () {
     this.ipfilter(this.req, function(){}, next);
   });
 
+  it('should not log allow if log level is set to deny and a exclude path is set', function (done) {
+    var messages = [];
+    var logF = function logFF(message) {
+      console.log(message,'it happend!');
+      messages.push(message);
+    };
+    this.ipfilter = ipfilter(['127.0.0.1'], { log: true, logF: logF, logLevel: 'deny', excluding: [ '/health' ]});
+    this.req = {
+      url: '/health/foo/bar',
+      session: {},
+      headers: [],
+      connection: {
+        remoteAddress: ''
+      }
+    };
+
+    this.req.connection.remoteAddress = '127.0.0.1';
+
+    var next = function(){
+      assert.equal(0, messages.length, messages[0]);
+      done();
+    };
+
+    this.ipfilter(this.req, function(){}, next);
+  });
 
   it('should log deny if log level is set to deny', function (done) {
     var messages = [];
