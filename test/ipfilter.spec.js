@@ -1016,6 +1016,31 @@ describe('using a custom ip detection function', function(){
   });
 });
 
+describe('using a dynamic ips method', function(){
+  beforeEach(function () {
+    function getDynamicIps(req){
+      var ipAddresses;
+
+      ipAddresses = ['127.0.0.2'];
+      return ipAddresses;
+    }
+
+    this.ipfilter = ipfilter([], { getIps:getDynamicIps, log: false, mode: 'deny' });
+    this.req = {
+      session: {},
+      headers: [],
+      connection: {
+        remoteAddress: ''
+      }
+    };
+  });
+
+  it('should allow the ip', function(done){
+    this.req.connection.remoteAddress = '127.0.0.2';
+    checkError(this.ipfilter, this.req, done);
+  });
+});
+
 function checkError(ipfilter, req, done){
   var next = function next(err) {
     assert (err instanceof IpDeniedError);
