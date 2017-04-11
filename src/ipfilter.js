@@ -50,7 +50,8 @@ module.exports = function ipfilter(ips, opts) {
     allowedHeaders: [],
     allowPrivateIPs: false,
     excluding: [],
-    detectIp: getClientIp
+    detectIp: getClientIp,
+    getIps: false
   });
 
   function getClientIp(req) {
@@ -91,7 +92,8 @@ module.exports = function ipfilter(ips, opts) {
 
   var matchClientIp = function(ip){
     var mode = settings.mode.toLowerCase();
-
+    if (settings.getIps)
+        ips = settings.getIps();
     var result = _.invoke(ips,testIp,ip,mode);
 
     if(mode === 'allow'){
@@ -171,7 +173,7 @@ module.exports = function ipfilter(ips, opts) {
     var ip = settings.detectIp(req);
     // If no IPs were specified, skip
     // this middleware
-    if(!ips || !ips.length) { return next(); }
+    if((!ips || !ips.length) && !settings.getIps) { return next(); }
 
     if(matchClientIp(ip,req)) {
       // Grant access
