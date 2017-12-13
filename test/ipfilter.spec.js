@@ -1057,6 +1057,17 @@ describe('using a custom ip detection function', function(){
     this.req.connection.remoteAddress = '127/0/0/1';
     checkError(this.ipfilter, this.req, done);
   });
+
+  it('is passed the getClientIp function', function(done){
+    function detectIp(req, getClientIp) {
+      assert.equal(typeof getClientIp, 'function');
+      return req.connection.remoteAddress;
+    }
+
+    this.req.connection.remoteAddress = '127.0.0.1';
+    this.ipfilter = ipfilter(['127.0.0.1'], { detectIp: detectIp });
+    checkError(this.ipfilter, this.req, done);
+  });
 });
 
 function checkError(ipfilter, req, done){
