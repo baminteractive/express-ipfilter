@@ -61,6 +61,11 @@ describe('enforcing IP address blacklist restrictions', function () {
     this.req.headers['x-forwarded-for'] = '127.0.0.1';
     checkError(this.ipfilter, this.req, done);
   });
+
+  it('should deny if any blacklisted forwarded ips are in a header', function (done) {
+    this.req.headers['x-forwarded-for'] = '127.0.0.2, 127.0.0.1';
+    checkError(this.ipfilter, this.req, done);
+  });
 });
 
 describe('enforcing IP address whitelist restrictions', function () {
@@ -122,6 +127,11 @@ describe('enforcing IP address whitelist restrictions', function () {
 
     it('should deny all non-whitelisted forwarded ips', function (done) {
       this.req.headers['x-forwarded-for'] = '127.0.0.2';
+      checkError(this.ipfilter, this.req, done);
+    });
+
+    it('should deny any non-whitelisted forwarded ips in the list', function (done) {
+      this.req.headers['x-forwarded-for'] = '127.0.0.2, 127.0.0.1';
       checkError(this.ipfilter, this.req, done);
     });
   });
@@ -1040,7 +1050,7 @@ describe('using a custom ip detection function', function(){
 
       ipAddress = req.connection.remoteAddress.replace(/\//g, '.');
 
-      return ipAddress;
+      return [ipAddress];
     }
 
     this.ipfilter = ipfilter(['127.0.0.1'], { detectIp: detectIp, log: false, allowedHeaders: ['x-forwarded-for'] });
