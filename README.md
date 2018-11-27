@@ -12,7 +12,7 @@ This package provides easy IP based access control. This can be achieved either 
 [![Circle CI](https://circleci.com/gh/baminteractive/express-ipfilter/tree/master.svg?style=svg)](https://circleci.com/gh/baminteractive/express-ipfilter/tree/master)
 
 ## Version
-0.3.1
+0.3.2
 
 ## Installation
 
@@ -161,6 +161,10 @@ Run tests by using
 This will run `eslint`,`babel`, and `mocha` and output coverage data into `coverage`.  Any pull request you submit needs to be accompanied by a test.
 
 ## Changelog
+
+0.3.2
+ * Bump the lodash version due to security concerns
+ * Update lodash usage in `src/ipfulter.js` for tests to pass
 
 0.3.1
  * Fixes critical bug that allowed access when ips is empty and mode == 'allow'.
