@@ -95,7 +95,7 @@ module.exports = function ipfilter(ips, opts) {
   var matchClientIp = function(ip){
     var mode = settings.mode.toLowerCase();
 
-    var result = _.invoke(getIps(),testIp,ip,mode);
+    var result = _.invokeMap(getIps(),testIp,ip,mode);
 
     if(mode === 'allow'){
       return _.some(result);
