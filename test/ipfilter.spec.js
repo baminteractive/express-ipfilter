@@ -9,7 +9,7 @@ var assert = require('assert');
 describe('enforcing IP address blacklist restrictions', function () {
 
   beforeEach(function () {
-    this.ipfilter = ipfilter(['127.0.0.1'], { log: false, allowedHeaders: ['x-forwarded-for'] });
+    this.ipfilter = ipfilter(['127.0.0.1'], { log: false, trustProxy: true });
     this.req = {
       session: {},
       headers: [],
@@ -84,7 +84,7 @@ describe('enforcing IP address whitelist restrictions', function () {
 
   describe('with a whitelist with ips', function () {
     beforeEach(function () {
-      this.ipfilter = ipfilter(['127.0.0.1'], { log: false, mode: 'allow', allowedHeaders: ['x-forwarded-for'] });
+      this.ipfilter = ipfilter(['127.0.0.1'], { log: false, mode: 'allow', trustProxy: true });
       this.req = {
         session: {},
         headers: [],
@@ -131,7 +131,7 @@ describe('using cidr block', function () {
   describe('enforcing whitelist restrictions', function () {
     beforeEach(function () {
       // Ip range: 127.0.0.1 - 127.0.0.14
-      this.ipfilter = ipfilter(['127.0.0.1/28'], { log: false, mode: 'allow', allowedHeaders: ['x-forwarded-for'] });
+      this.ipfilter = ipfilter(['127.0.0.1/28'], { log: false, mode: 'allow', trustProxy: true });
       this.req = {
         session: {},
         headers: [],
@@ -176,7 +176,7 @@ describe('using cidr block', function () {
   describe('enforcing IP address blacklist restrictions', function () {
 
     beforeEach(function () {
-      this.ipfilter = ipfilter(['127.0.0.1/28'], { log: false, allowedHeaders: ['x-forwarded-for'] });
+      this.ipfilter = ipfilter(['127.0.0.1/28'], { log: false, trustProxy: true });
       this.req = {
         session: {},
         headers: [],
@@ -236,7 +236,7 @@ describe('using ranges', function () {
   describe('enforcing whitelist restrictions', function () {
     beforeEach(function () {
       // Ip range: 127.0.0.1 - 127.0.0.14
-      this.ipfilter = ipfilter([['127.0.0.1', '127.0.0.3']], { log: false, mode: 'allow', allowedHeaders: ['x-forwarded-for'] });
+      this.ipfilter = ipfilter([['127.0.0.1', '127.0.0.3']], { log: false, mode: 'allow', trustProxy: true });
       this.req = {
         session: {},
         headers: [],
@@ -324,7 +324,7 @@ describe('using ranges', function () {
   describe('enforcing IP address blacklist restrictions', function () {
 
     beforeEach(function () {
-      this.ipfilter = ipfilter([['127.0.0.1', '127.0.0.3']], { log: false, allowedHeaders: ['x-forwarded-for'] });
+      this.ipfilter = ipfilter([['127.0.0.1', '127.0.0.3']], { log: false, trustProxy: true });
       this.req = {
         session: {},
         headers: [],
@@ -871,7 +871,7 @@ describe('mixing different types of filters', function () {
 describe('enforcing codio based client IP address', function () {
   describe('blacklist restrictions', function () {
     beforeEach(function () {
-      this.ipfilter = ipfilter(['127.0.0.1'], { log: false, allowedHeaders: ['x-real-ip'] });
+      this.ipfilter = ipfilter(['127.0.0.1'], { log: false, trustProxy: true });
       this.req = {
         session: {},
         headers: [],
@@ -896,7 +896,7 @@ describe('enforcing codio based client IP address', function () {
 
   describe('whitelist restrictions', function () {
     beforeEach(function () {
-      this.ipfilter = ipfilter(['127.0.0.1'], { log: false, mode: 'allow', allowedHeaders: ['x-real-ip'] });
+      this.ipfilter = ipfilter(['127.0.0.1'], { log: false, mode: 'allow', trustProxy: true });
       this.req = {
         session: {},
         headers: [],

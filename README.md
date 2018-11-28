@@ -12,7 +12,7 @@ This package provides easy IP based access control. This can be achieved either 
 [![Circle CI](https://circleci.com/gh/baminteractive/express-ipfilter/tree/master.svg?style=svg)](https://circleci.com/gh/baminteractive/express-ipfilter/tree/master)
 
 ## Version
-0.3.1
+0.4.0
 
 ## Installation
 
@@ -22,7 +22,7 @@ Recommended installation is with npm. To add node-ipfilter to your project, do:
 
 ## Usage with Express
 
-> NOTE: Starting with version 0.1.0, allow forwarded IP addresses through headers (forward, Cloudflare, Codio) are disabled by **default**. You must explicitly enable them by adding them to the `allowedHeaders` list.
+> NOTE: Starting with version 0.1.0, allow forwarded IP addresses through headers (forward, Cloudflare, Codio) are disabled by **default**. In version 0.4.0 `allowedHeaders` list was removed in favour of proxy-addr module, the same module used in Express to handle behind proxies scenarios. If you need to get the client IP from any other header, you should pass your own `getClientIp` function by passing `detectIp` parameter.
 
 Blacklisting certain IP addresses, while allowing all other IPs:
 
@@ -121,9 +121,9 @@ You will need to require the `IpDeniedError` type in order to handle it.
 | mode   | whether to *deny* or *allow* to the IPs provided | string|deny|
 | log   | console log actions | boolean|true|
 | logLevel | level of logging (*all*,*deny*,*allow*) | string | all
-| allowedHeaders | an array of strings for header names that are acceptable for retrieving an IP address | array | [] |
 | excluding   | routes that should be excluded from ip filtering | array|[]|
 | detectIp | define a custom function that takes an Express request object and returns an IP address to test against | function | built-in detection |
+| trustProxy | This setting is implemented using the proxy-addr package. Check the [documentation](https://www.npmjs.com/package/proxy-addr) for the trust parameter. | boolean, array, string, number, function | false |
 
 > A note on detectIp
 
@@ -161,6 +161,13 @@ Run tests by using
 This will run `eslint`,`babel`, and `mocha` and output coverage data into `coverage`.  Any pull request you submit needs to be accompanied by a test.
 
 ## Changelog
+
+0.4.0
+ * function `getClientIp` now uses `proxy-addr` to comply with express [behind proxies feature](http://expressjs.com/en/guide/behind-proxies.html). `allowedHeaders` removed due to the use of `proxy-addr`, since it does already parse HTTP headers (X-Forwarded-For).
+
+0.3.2
+ * Bump the lodash version due to security concerns [(link)](https://nodesecurity.io/advisories/577)
+ * Update lodash usage in `src/ipfilter.js` for tests to pass
 
 0.3.1
  * Fixes critical bug that allowed access when ips is empty and mode == 'allow'.
